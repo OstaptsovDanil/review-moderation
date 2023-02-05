@@ -1,0 +1,14 @@
+<form method="post" action="{% url 'feedback_moderation:add_review' doctor.id %}">
+    {% csrf_token %}
+    <h1>Оставить отзыв</h1>
+    <h2>{{ doctor.full_name }}</h2>
+    {% for spec in doctor.specializations.all %}
+        {{ spec }}
+    {% endfor %}
+    <div>
+        {{ form.original_text }}
+        {{ form.original_text.errors }}
+    </div>
+
+    <div><input type="submit" value="Отправить отзыв" /></div>
+</form>

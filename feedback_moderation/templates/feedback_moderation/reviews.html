@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список отзывов</title>
+</head>
+<body>
+{% load new_tags %}
+    {% for feedback in feedbacks %}
+    <div class="username">
+        {{ feedback.user }}
+    </div>
+    <div class="doctor">
+        {{ feedback.doctor }}
+        {% for spec in feedback.doctor.specializations.all %}
+            {{ spec }}
+        {% endfor %}
+    </div>
+    <div class="feedback">
+        {% for word in feedback.original_text|split:' ' %}
+            {% if word|is_swear:swearing %}
+                {% if word|is_swear:swearing_exceptions %}
+                    <span>{{word}}</span>
+                {% else %}
+                    <span style="color:red">{{word}}</span>
+                {% endif %}
+            {% else %}
+                <span>{{word}}</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="datetime">
+        {{ feedback.publishing_date_time|date:"d.m.Y" }}
+    </div>
+    <p></p>
+    {% endfor %}
+</body>
+</html>
